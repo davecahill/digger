@@ -1,14 +1,15 @@
 CC	?= gcc
-CFLAGS	+= -O -g -pipe
-RCFLAGS = -D_SDL -std=c99 -Wall
+CFLAGS	+= 
+RCFLAGS = 
 OBJS	= main.o digger.o drawing.o sprite.o scores.o record.o sound.o \
 			newsnd.o ini.o input.o monster.o bags.o alpha.o vgagrafx.o \
 			title_gz.o icon.o sdl_kbd.o sdl_vid.o sdl_timer.o sdl_snd.o
 
-ARCH	= "LINUX"
+#ARCH	= "LINUX"
 #ARCH	= "MINGW"
 #ARCH	= "FREEBSD"
 #ARCH	= "FooOS"
+ARCH = "JS"
 
 ifeq ($(ARCH),"MINGW")
 RCFLAGS	+= -mno-cygwin -DMINGW -Dmain=SDL_main -I../zlib -I../SDL-1.1.2/include/SDL
@@ -35,6 +36,14 @@ OBJS	+=		# insert here the names of the files which contains various missing fun
 RCFLAGS	+= -DFooOS	# insert here additional compiler flags which required to find include files, trigger os-specific compiler behaviour etc.
 LIBS	+= 		# insert here libs required to compile like zlib, SDL etc
 ESUFFIX	=		# insert here suffix of the executable on your platform if any (like ".exe" on Win32)
+endif
+
+ifeq ($(ARCH),"JS")
+CC = ~/Code/emscripten/emcc
+OBJS	+=		# insert here the names of the files which contains various missing functions like strup() on Linux and FreeBSD
+RCFLAGS	+=	# insert here additional compiler flags which required to find include files, trigger os-specific compiler behaviour etc.
+LIBS	+= 		# insert here libs required to compile like zlib, SDL etc
+ESUFFIX	= .html		# insert here suffix of the executable on your platform if any (like ".exe" on Win32)
 endif
 
 all: digger$(ESUFFIX)
