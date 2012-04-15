@@ -55,8 +55,11 @@ void initkeyb(void)
 	SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
 	SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_IGNORE);
 	SDL_EventState(SDL_MOUSEBUTTONUP, SDL_IGNORE);
-	
+#ifdef JS	
+	SDL_SetEventFilter(Handler,NULL);
+#else	
 	SDL_SetEventFilter(Handler);
+#endif	
 }
 
 void restorekeyb(void)
